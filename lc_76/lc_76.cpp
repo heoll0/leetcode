@@ -18,15 +18,22 @@ public:
             }
             if(t.empty()){
                 if(list[list.size()-1] - list[j] < last - first){
-                    first = list[0];
+                    first = list[j];
                     last = list[list.size()-1];
                     }
                 if(s.find(s[list[j]], list[j]+1) == string::npos || s.find(s[list[j]], list[j]+1) > list[list.size()-1]){
                     t.push_back(s[list[j]]);
                     ++j;
                 }
-                else
+                else{                    
                     ++j;
+                    t.push_back(s[list[j]]);
+                    if(list[list.size()-1] - list[j] < last - first){
+                        first = list[j];
+                        last = list[list.size()-1];
+                    }
+                    ++j;
+                }
             }
         }
         result.assign(s.begin()+first, s.begin()+last);
