@@ -5,7 +5,7 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> flag(128, false);
+        vector<bool> flag(128, false);
         vector<int> index(128, 0);
         for(int i = 0; i < t.size(); ++i){
             flag[t[i]] = true;
@@ -14,7 +14,7 @@ public:
         int count = 0, l = 0, min_l = 0, min_size = s.size()+1;
         for(int r = 0; r < s.size(); ++r){
             if(flag[s[r]]){
-                if(--index[s[r]] >= 0);
+                if(--index[s[r]] >= 0)
                     ++count;
             }
             while(count == t.size()){
