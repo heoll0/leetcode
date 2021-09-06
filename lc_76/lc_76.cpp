@@ -5,39 +5,30 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-        string result;
-        string t_t = t;
-        vector<int> list;
-        int first = 0;
-        int last = s.size() + 1;
-        int j = 0;
-        for(int i = 0; i < s.size(); ++i){
-            if(t.find(s[i]) != string::npos){
-                list.push_back(i);
-                t.erase(t.begin() + t.find(s[i]));
-            }
-            if(t.empty()){
-                if(list[list.size()-1] - list[j] < last - first){
-                    first = list[j];
-                    last = list[list.size()-1];
-                    }
-                if(s.find(s[list[j]], list[j]+1) == string::npos || s.find(s[list[j]], list[j]+1) > list[list.size()-1]){
-                    t.push_back(s[list[j]]);
-                    ++j;
-                }
-                else{                    
-                    ++j;
-                    t.push_back(s[list[j]]);
-                    if(list[list.size()-1] - list[j] < last - first){
-                        first = list[j];
-                        last = list[list.size()-1];
-                    }
-                    ++j;
-                }
-            }
+        vector<int> flag(128, false);
+        vector<int> index(128, 0);
+        for(int i = 0; i < t.size(); ++i){
+            flag[t[i]] = true;
+            ++index[t[i]];
         }
-        result.assign(s.begin()+first, s.begin()+last);
-        return result;
+        int count = 0, l = 0, min_l = 0, min_size = s.size()+1;
+        for(int r = 0; r < s.size(); ++r){
+            if(flag[s[r]]){
+                if(--index[s[r]] >= 0);
+                    ++count;
+            }
+            while(count == t.size()){
+                if(r-l+1 < min_size){
+                    min_size = r-l+1;
+                    min_l = l;
+                }
+                if(flag[s[l]] && ++index[s[l]] > 0){
+                    --count;
+                }
+                ++l;
+            }       
+        }
+        return min_size > s.size() ? "" : s.substr(min_l, min_size);
     }
 };
 
