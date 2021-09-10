@@ -11,14 +11,10 @@ public:
             if(nums[middle] > target) high = middle-1;
             else if (nums[middle] < target) low = middle+1;
             else{
-                result.push_back(lowwer_bound(nums, target, low, middle));
-                result.push_back(higher_bound(nums, target, middle, high));
-                return result; 
+                return vector<int>{lowwer_bound(nums, target, low, middle), higher_bound(nums, target, middle, high)}; 
             }            
         }
-        result.push_back(-1);
-        result.push_back(-1);
-        return result;
+        return vector<int>{-1, -1};
     }
 
     int lowwer_bound(vector<int>& nums, int target, int low, int high){
