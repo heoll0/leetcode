@@ -27,10 +27,10 @@ public:
         }
         int length = nums.size();
         if(length % 2 == 0){
-            double result = (nums[length/2] + nums[(length/2)-1])/2;
+            result = (double(nums[length/2]) + double(nums[(length/2)-1]))/2;
         }
         else
-            result = nums[(length-1)/2];
+            result = double(nums[(length-1)/2]);
         
         return result;
     }
@@ -41,6 +41,5 @@ int main(){
     vector<int> num1 {1,2};
     vector<int> num2 {3,4};
     test.findMedianSortedArrays(num1, num2);
-
     return 0;
 }
