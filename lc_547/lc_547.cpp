@@ -1,7 +1,3 @@
-#include <vector>
-
-using namespace std;
-
 class Solution {
 public:
     int findCircleNum(vector<vector<int>>& isConnected) {
@@ -11,6 +7,7 @@ public:
                 ++result;
                 for(int j = 0; j < isConnected.size(); ++j){
                     if(isConnected[i][j] == 1 && i != j){
+                        isConnected[i][i] = 0;
                         getConnectedNum(isConnected, j);
                     }
                 }
@@ -22,15 +19,11 @@ public:
         isConnected[j][j] = 0;
         for(int x = 0; x < isConnected.size(); ++x){
             if(isConnected[j][x] == 1){
-                getConnectedNum(isConnected, x);    
+                if(isConnected[x][x] != 0){
+                    getConnectedNum(isConnected, x); 
+                }
             }
         }
     }
 
 };
-
-int main(){
-    Solution test;
-    vector<vector<int>> v = {{1,1,0}, {1,1,0}, {0,0,1}};
-    test.findCircleNum(v);
-}

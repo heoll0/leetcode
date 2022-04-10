@@ -3,6 +3,8 @@ using namespace std;
 
 class Solution {
 public:
+    vector<pair<int, int>> spaces;
+    bool yes = false;
     void solveSudoku(vector<vector<char>>& board) {
         vector<vector<bool>> col(9, vector<bool>(9, false));
         vector<vector<bool>> row(9, vector<bool>(9, false));
@@ -15,41 +17,26 @@ public:
                     int index = i / 3 + (j / 3) * 3;
                     block[index][board[i][j]-'1'] = true;
                 }
+                else{
+                    spaces.emplace_back(i, j);
+                }
             }
         }
-        if(board[0][0] != '.'){
-            col[0][board[0][0]-'1'] = false;
-            block[0][board[0][0]-'1'] = false;
-        }
-        dfs(board, row, col, block, 0, 0);
+        dfs(board, row, col, block, 0);
 
     }
-    void dfs(vector<vector<char>>& board, vector<vector<bool>>& row, vector<vector<bool>>& col, vector<vector<bool>>& block, int x, int y){
-        if(col[y][board[x][y]-'1'] || block[x / 3 + (y / 3) * 3][board[x][y]-'1']){
+    void dfs(vector<vector<char>>& board, vector<vector<bool>>& row, vector<vector<bool>>& col, vector<vector<bool>>& block, int x){
+        if(x == spaces.size()){
+            yes = true;
             return;
         }
-        if(board[x][y] != '.'){
-            col[y][board[x][y]-'1'] = true;
-            block[x / 3 + (y / 3) * 3][board[x][y]-'1'] = true; 
-        }
-        if(x == 8 && y == 8){
-            return;
-        }
-        
-        for(int i = x; i < 9; ++i){
-            for(int j = y; j < 9; ++j){
-                if(board[i][j] == '.'){
-                    for(int q = 0; q < 9; ++q){
-                        if(!row[i][q]){
-                            
-                            board[i][j] = q + 1 + '0';
-                            row[i][q] = true;
-                            dfs(board, row, col, block, i, j);
-                            row[i][q] = false;
-                            board[i][j] = '.';
-                        }
-                    }
-                }
+        auto [i, j] = spaces[x];
+        for(int q = 0; q < 9 && !yes; ++q){
+            if(!row[i][q] && !col[j][q] && !block[i / 3 + (j / 3) * 3][q]){
+                board[i][j] = q + 1 + '0';
+                row[i][q] = col[j][q] = block[i / 3 + (j / 3) * 3][q] = true;
+                dfs(board, row, col, block, x+1);
+                row[i][q] = col[j][q] = block[i / 3 + (j / 3) * 3][q] = false;
             }
         }
     }

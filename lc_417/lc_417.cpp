@@ -1,3 +1,5 @@
+#include <bits/stdc++.h>
+using namespace std;
 class Solution {
 public:
     vector<int> direction = {1, 0, -1, 0, 1};
