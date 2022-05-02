@@ -10,8 +10,7 @@ public:
         if(pre == 0){
             return 0;
         } 
-        for(int i = 2; i <= n; ++i){
-            
+        for(int i = 2; i <= n; ++i){    
             int cur = s[i - 1] - '0';
             if((pre == 0 || pre > 2) && cur == 0){
                 return 0;
